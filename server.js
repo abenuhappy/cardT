@@ -44,3 +44,6 @@ app.post('/api/data', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+// Vercel 환경을 위해 app 객체를 내보냅니다 (export)
+module.exports = app;
