@@ -1,5 +1,3 @@
-const fetch = require('node-fetch');
-
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzIRtU26BPY4u_AEI7ZhEMrKGFg_H-e1cbFJWIadAdh3qXX7XKpjnNFKnfLAB0O_Fzclg/exec';
 
 module.exports = async function handler(req, res) {
