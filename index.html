@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Card Bill Calculator</title>
+
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="app-container">
+    <header class="header blur-effect">
+      <div class="title-area">
+        <h1>Monthly Expenses</h1>
+        <p class="subtitle">Smart tracking across multiple cards</p>
+      </div>
+
+      <div class="month-selector">
+        <button id="prevMonthBtn" class="nav-btn" aria-label="Previous Month">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <div class="current-month-display">
+          <span id="currentYear">2026</span>
+          <span id="currentMonthStr">Feb</span>
+        </div>
+        <button id="nextMonthBtn" class="nav-btn" aria-label="Next Month">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="main-content">
+
+      <!-- Loading State -->
+      <div id="loader" class="loader-container">
+        <div class="spinner"></div>
+        <p>Syncing with Google Sheets...</p>
+      </div>
+
+      <div id="dashboard" class="dashboard hidden">
+
+        <!-- Total Summary Section -->
+        <section class="total-summary-card gradient-border glow">
+          <div class="summary-content">
+            <h2>Total Expected Bill</h2>
+            <div class="amount-wrapper">
+              <span class="currency">₩</span>
+              <span id="grandTotal" class="total-amount">0</span>
+            </div>
+            <p id="totalInsights" class="insights">Gathering data...</p>
+          </div>
+        </section>
+
+        <!-- Cards Breakdown -->
+        <section class="cards-grid" id="cardsContainer">
+          <!-- Dynamically populated card summary items will go here -->
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

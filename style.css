@@ -1,0 +1,552 @@
+/* style.css - Modern dark theme with glassmorphism */
+
+:root {
+  /* Color Palette */
+  --bg-primary: #0a0e17;
+  --bg-secondary: #131a2a;
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+  --accent-glow: rgba(139, 92, 246, 0.5);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  /* Typography */
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+  background-attachment: fixed;
+}
+
+.app-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Glassmorphism Utilities */
+.blur-effect {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.title-area h1 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--text-main) 0%, var(--text-muted) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.25rem;
+}
+
+.title-area .subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.month-selector {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  border: 1px solid var(--glass-border);
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.current-month-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+}
+
+#currentYear {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+#currentMonthStr {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Main Content & Loader */
+.hidden {
+  display: none !important;
+}
+
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 40vh;
+  gap: 1.5rem;
+  color: var(--text-muted);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--accent-purple);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Total Summary Section */
+.total-summary-card {
+  position: relative;
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 24px;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: -1;
+}
+
+.glow {
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.15);
+}
+
+.summary-content h2 {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.amount-wrapper {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-family: var(--font-display);
+}
+
+.currency {
+  font-size: 2rem;
+  color: var(--accent-purple);
+  font-weight: 600;
+}
+
+.total-amount {
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  background: linear-gradient(to right, #fff, #ebd3ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.insights {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* Cards Grid Breakdown */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.credit-card-item {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.credit-card-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.credit-card-item.active {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--accent-purple);
+}
+
+.credit-card-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to right, var(--accent-blue), var(--accent-purple));
+  opacity: 0.7;
+}
+
+.cc-name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-main);
+}
+
+.cc-payday {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.cc-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cc-breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.cc-breakdown-row.sub {
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  padding-top: 0.5rem;
+}
+
+.cc-breakdown-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.cc-breakdown-val {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.cc-amount {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.expand-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  color: var(--text-muted);
+  transition: transform 0.3s ease;
+}
+
+.credit-card-item.active .expand-indicator {
+  transform: rotate(180deg);
+  color: var(--text-main);
+}
+
+.cc-details-layer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+  opacity: 0;
+}
+
+.cc-details-layer.expanded {
+  max-height: 2000px;
+  transition: max-height 0.5s ease-in-out, opacity 0.3s ease 0.1s;
+  opacity: 1;
+}
+
+.cc-details-inner {
+  padding-top: 1.5rem;
+  margin-top: 1rem;
+  border-top: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 1.5rem 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.transaction-item.compact {
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.transaction-item:hover {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: var(--glass-border);
+}
+
+.tx-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+  /* allows text truncation */
+}
+
+.tx-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--accent-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.tx-icon.installment {
+  background: rgba(139, 92, 246, 0.1);
+  color: var(--accent-purple);
+}
+
+.tx-info {
+  min-width: 0;
+}
+
+.tx-info h4 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tx-meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.tx-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+.tx-right {
+  text-align: right;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+}
+
+.tx-amount {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.tx-progress {
+  font-size: 0.75rem;
+  color: var(--accent-purple);
+  background: rgba(139, 92, 246, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .title-area h1 {
+    font-size: 1.5rem;
+  }
+
+  .title-area .subtitle {
+    font-size: 0.85rem;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+    padding: 1.25rem 1rem;
+  }
+
+  .month-selector {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0.5rem;
+  }
+
+  .total-summary-card {
+    padding: 1.5rem 1rem;
+    border-radius: 16px;
+  }
+
+  .total-amount {
+    font-size: 2.5rem;
+  }
+
+  .currency {
+    font-size: 1.5rem;
+  }
+
+  .transaction-item {
+    padding: 0.85rem 1rem;
+  }
+
+  .tx-amount {
+    font-size: 1rem;
+  }
+
+  .cc-amount {
+    font-size: 1.25rem;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .month-selector {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .total-summary-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .total-amount {
+    font-size: 3rem;
+  }
+}
