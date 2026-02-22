@@ -4,7 +4,7 @@
   "description": "Proxy for Google sheets API",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "dev": "npx vercel dev"
   },
   "dependencies": {
     "cors": "^2.8.5",
