@@ -243,6 +243,24 @@ body {
   font-size: 0.95rem;
 }
 
+.month-comparison {
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+.month-comparison.increase {
+  color: #f87171;
+}
+
+.month-comparison.decrease {
+  color: #4ade80;
+}
+
+.month-comparison.same {
+  color: var(--text-muted);
+}
+
 /* Cards Grid Breakdown */
 .cards-grid {
   display: grid;

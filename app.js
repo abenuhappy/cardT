@@ -8,7 +8,7 @@ const state = {
         installments: [],
         lumpSums: []
     },
-    currentDate: new Date(2026, 1, 1), // Starting Feb 2026 as per data
+    currentDate: new Date(), // 오늘 기준 현재 월
     activeFilter: 'all', // all, lumpSums, installments
     isLoading: true
 };
@@ -19,6 +19,7 @@ const elements = {
     dashboard: document.getElementById('dashboard'),
     grandTotal: document.getElementById('grandTotal'),
     totalInsights: document.getElementById('totalInsights'),
+    monthComparison: document.getElementById('monthComparison'),
     cardsContainer: document.getElementById('cardsContainer'),
     detailsList: document.getElementById('detailsListContainer'),
     prevBtn: document.getElementById('prevMonthBtn'),
@@ -89,6 +90,26 @@ async function fetchData() {
     }
 }
 
+// 전월 합계 계산 (연·월만 지정)
+function getTotalForMonth(year, month) {
+    let total = 0;
+    state.data.lumpSums.forEach(ls => {
+        if (ls.year === year && ls.month === month && state.data.cards.some(c => c.id === ls.cardId)) {
+            total += ls.amount;
+        }
+    });
+    state.data.installments.forEach(inst => {
+        const start = new Date(inst.paymentStartDate);
+        const startYear = start.getFullYear();
+        const startMonth = start.getMonth() + 1;
+        const monthDiff = (year - startYear) * 12 + (month - startMonth);
+        if (monthDiff >= 0 && monthDiff < inst.months && state.data.cards.some(c => c.id === inst.cardId)) {
+            total += Math.floor(inst.totalAmount / inst.months);
+        }
+    });
+    return total;
+}
+
 // Core Logic & Rendering
 function renderDashboard() {
     const targetYear = state.currentDate.getFullYear();
@@ -152,6 +173,24 @@ function renderDashboard() {
     // 2. Render Grand Total
     animateValue(elements.grandTotal, grandTotal);
     elements.totalInsights.textContent = `Includes ${relevantTransactions.length} items for this cycle.`;
+
+    // 2b. 전달 대비 증감액
+    const prevMonth = targetMonth === 1 ? 12 : targetMonth - 1;
+    const prevYear = targetMonth === 1 ? targetYear - 1 : targetYear;
+    const prevTotal = getTotalForMonth(prevYear, prevMonth);
+    const diff = grandTotal - prevTotal;
+    const compEl = elements.monthComparison;
+    compEl.classList.remove('increase', 'decrease', 'same');
+    if (diff > 0) {
+        compEl.textContent = `전달 대비 +₩${diff.toLocaleString()}`;
+        compEl.classList.add('increase');
+    } else if (diff < 0) {
+        compEl.textContent = `전달 대비 -₩${Math.abs(diff).toLocaleString()}`;
+        compEl.classList.add('decrease');
+    } else {
+        compEl.textContent = '전달과 동일';
+        compEl.classList.add('same');
+    }
 
     // 3. Render Cards
     elements.cardsContainer.innerHTML = state.data.cards.map(card => {
